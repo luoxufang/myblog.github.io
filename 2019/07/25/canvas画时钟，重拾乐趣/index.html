@@ -1,0 +1,753 @@
+<!DOCTYPE html>
+
+
+
+  
+
+
+<html class="theme-next mist use-motion" lang>
+<head><meta name="generator" content="Hexo 3.8.0">
+  <meta charset="UTF-8">
+<meta http-equiv="X-UA-Compatible" content="IE=edge">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+<meta name="theme-color" content="#222">
+
+
+
+
+
+
+
+
+
+<meta http-equiv="Cache-Control" content="no-transform">
+<meta http-equiv="Cache-Control" content="no-siteapp">
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+  <link href="/lib/fancybox/source/jquery.fancybox.css?v=2.1.5" rel="stylesheet" type="text/css">
+
+
+
+
+
+
+
+<link href="/lib/font-awesome/css/font-awesome.min.css?v=4.6.2" rel="stylesheet" type="text/css">
+
+<link href="/css/main.css?v=5.1.4" rel="stylesheet" type="text/css">
+
+
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon-next.png?v=5.1.4">
+
+
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/icon.png?v=5.1.4">
+
+
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16x16-next.png?v=5.1.4">
+
+
+  <link rel="mask-icon" href="/images/logo.svg?v=5.1.4" color="#222">
+
+
+
+
+
+  <meta name="keywords" content="Hexo, NexT">
+
+
+
+
+
+
+
+
+
+
+<meta name="description" content="先来简单介绍画时钟需要的canvas知识  （1）. 在HTML页面中添加canvas元素，必须定义canvas元素的id属性值以便接下来的调用。 1&amp;lt;canvas id=&amp;quot;canvas&amp;quot; class=&amp;quot;canvas&amp;quot; width=&amp;quot;400&amp;quot; height=&amp;quot;400&amp;quot; border:&amp;gt;&amp;lt;/canv">
+<meta property="og:type" content="article">
+<meta property="og:title" content="canvas画时钟，重拾乐趣!">
+<meta property="og:url" content="http://yoursite.com/2019/07/25/canvas画时钟，重拾乐趣/index.html">
+<meta property="og:site_name" content="罗-blog">
+<meta property="og:description" content="先来简单介绍画时钟需要的canvas知识  （1）. 在HTML页面中添加canvas元素，必须定义canvas元素的id属性值以便接下来的调用。 1&amp;lt;canvas id=&amp;quot;canvas&amp;quot; class=&amp;quot;canvas&amp;quot; width=&amp;quot;400&amp;quot; height=&amp;quot;400&amp;quot; border:&amp;gt;&amp;lt;/canv">
+<meta property="og:locale" content="default">
+<meta property="og:image" content="https://images2015.cnblogs.com/blog/1065412/201702/1065412-20170224200543882-1211205652.png">
+<meta property="og:updated_time" content="2019-04-29T07:58:37.745Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="canvas画时钟，重拾乐趣!">
+<meta name="twitter:description" content="先来简单介绍画时钟需要的canvas知识  （1）. 在HTML页面中添加canvas元素，必须定义canvas元素的id属性值以便接下来的调用。 1&amp;lt;canvas id=&amp;quot;canvas&amp;quot; class=&amp;quot;canvas&amp;quot; width=&amp;quot;400&amp;quot; height=&amp;quot;400&amp;quot; border:&amp;gt;&amp;lt;/canv">
+<meta name="twitter:image" content="https://images2015.cnblogs.com/blog/1065412/201702/1065412-20170224200543882-1211205652.png">
+
+
+
+<script type="text/javascript" id="hexo.configurations">
+  var NexT = window.NexT || {};
+  var CONFIG = {
+    root: '/',
+    scheme: 'Mist',
+    version: '5.1.4',
+    sidebar: {"position":"left","display":"post","offset":12,"b2t":false,"scrollpercent":false,"onmobile":false},
+    fancybox: true,
+    tabs: true,
+    motion: {"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}},
+    duoshuo: {
+      userId: '0',
+      author: 'Author'
+    },
+    algolia: {
+      applicationID: '',
+      apiKey: '',
+      indexName: '',
+      hits: {"per_page":10},
+      labels: {"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}
+    }
+  };
+</script>
+
+
+
+  <link rel="canonical" href="http://yoursite.com/2019/07/25/canvas画时钟，重拾乐趣/">
+
+
+
+
+
+  <title>canvas画时钟，重拾乐趣! | 罗-blog</title>
+  
+
+
+
+
+
+
+
+
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage" lang="default">
+
+  
+  
+    
+  
+
+  <div class="container sidebar-position-left page-post-detail">
+    <div class="headband"></div>
+
+    <header id="header" class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-wrapper">
+  <div class="site-meta ">
+    
+
+    <div class="custom-logo-site-title">
+      <a href="/" class="brand" rel="start">
+        <span class="logo-line-before"><i></i></span>
+        <span class="site-title">罗-blog</span>
+        <span class="logo-line-after"><i></i></span>
+      </a>
+    </div>
+      
+        <p class="site-subtitle"></p>
+      
+  </div>
+
+  <div class="site-nav-toggle">
+    <button>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+    </button>
+  </div>
+</div>
+
+<nav class="site-nav">
+  
+
+  
+    <ul id="menu" class="menu">
+      
+        
+        <li class="menu-item menu-item-home">
+          <a href="/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-home"></i> <br>
+            
+            首页
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-archives">
+          <a href="/archives/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-archive"></i> <br>
+            
+            归档
+          </a>
+        </li>
+      
+
+      
+    </ul>
+  
+
+  
+</nav>
+
+
+
+ </div>
+    </header>
+
+    <main id="main" class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          <div id="content" class="content">
+            
+
+  <div id="posts" class="posts-expand">
+    
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2019/07/25/canvas画时钟，重拾乐趣/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="luoxufang">
+      <meta itemprop="description" content>
+      <meta itemprop="image" content="/images/128.jpg">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="罗-blog">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">canvas画时钟，重拾乐趣!</h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+              <time title="Post created" itemprop="dateCreated datePublished" datetime="2019-07-25T15:57:09+08:00">
+                2019-07-25
+              </time>
+            
+
+            
+
+            
+          </span>
+
+          
+            <span class="post-category">
+            
+              <span class="post-meta-divider">|</span>
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">分类于</span>
+              
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/web前端/" itemprop="url" rel="index">
+                    <span itemprop="name">web前端</span>
+                  </a>
+                </span>
+
+                
+                
+              
+            </span>
+          
+
+          
+            
+          
+
+          
+          
+
+          
+            <span class="post-meta-divider">|</span>
+            <span class="page-pv"><i class="fa fa-file-o"></i>
+            <span class="busuanzi-value" id="busuanzi_value_page_pv"></span>
+            </span>
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        <p><img src="https://images2015.cnblogs.com/blog/1065412/201702/1065412-20170224200543882-1211205652.png" alt="image"></p>
+<blockquote>
+<p>先来简单介绍画时钟需要的canvas知识</p>
+</blockquote>
+<p>（1）. 在HTML页面中添加canvas元素，必须定义canvas元素的id属性值以便接下来的调用。</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">&lt;canvas id=&quot;canvas&quot; class=&quot;canvas&quot; width=&quot;400&quot; height=&quot;400&quot; border:&gt;&lt;/canvas&gt;</span><br></pre></td></tr></table></figure>
+<hr>
+<p>（2）. 使用id寻找canvas元素，在js代码中使用document.getElementById()等方法获取id。</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">var</span> canvas = <span class="built_in">document</span>.getElementById(<span class="string">"canvas"</span>);</span><br></pre></td></tr></table></figure>
+<p>（3）. 通过canvas元素的getContext方法来获取其上下文（Context）,即创建Context对象，以获取允许绘画的2D环境。</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">var</span> ctx = canvas.getContext(<span class="string">"2d"</span>);</span><br></pre></td></tr></table></figure>
+<p>（4）. 先来认识一下canvas的绘制方法。</p>
+<p>1.绘制矩形的两种方法：fillRect 和 strokeRect</p>
+<p>前者用于绘制用颜色填充（fill）区域的矩形，后者用于绘制轮廊（stroke）或线条。图形指定颜色用到了两个属性，即fillStyle 和 strokeStyle，前者用于指定要绘制的填充区域的颜色，后者用于指定要绘制的线条颜色</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">  <span class="comment">//绘制填充颜色矩形，默认黑色</span></span><br><span class="line">ctx.fillStyle=<span class="string">"red"</span>;</span><br><span class="line">ctx.fillRect(<span class="number">0</span>,<span class="number">0</span>,<span class="number">200</span>,<span class="number">100</span>);</span><br><span class="line"></span><br><span class="line"><span class="comment">//绘制有颜色线条</span></span><br><span class="line">ctx.strokeStyle=<span class="string">"blue"</span>;</span><br><span class="line">ctx.strokeRect(<span class="number">0</span>,<span class="number">0</span>,<span class="number">100</span>,<span class="number">50</span>);</span><br></pre></td></tr></table></figure>
+<p>2.绘制圆形<br>绘制圆形是会用到四种方法：beginPath、arc、closePath和fill或stroke。</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br></pre></td><td class="code"><pre><span class="line">  <span class="comment">//画圆填充红颜色</span></span><br><span class="line"><span class="comment">//绘制园用法：ctx.arc(x,y,radius,startAngle,endAngle,anticlockwise);</span></span><br><span class="line">ctx.beginPath();</span><br><span class="line">ctx.fillStyle=<span class="string">"red"</span>;</span><br><span class="line">ctx.arc(<span class="number">0</span>,<span class="number">0</span>,<span class="number">100</span>,<span class="number">0</span>,<span class="number">2</span>*<span class="built_in">Math</span>.PI,<span class="literal">true</span>);</span><br><span class="line">ctx.closePath();</span><br><span class="line">ctx.fill();</span><br><span class="line"></span><br><span class="line"><span class="comment">//线条蓝色画圆</span></span><br><span class="line">ctx.beginPath();</span><br><span class="line">ctx.strokeStyle=<span class="string">"blue"</span>;</span><br><span class="line">ctx.lineWidth=<span class="number">10</span>;<span class="comment">//设置线条宽度</span></span><br><span class="line">ctx.arc(<span class="number">0</span>,<span class="number">0</span>,<span class="number">174</span>,<span class="number">0</span>,<span class="built_in">Math</span>.PI*<span class="number">2</span>,<span class="literal">true</span>);</span><br><span class="line">ctx.stroke();</span><br></pre></td></tr></table></figure>
+<p>3.绘制直线<br>用到两个主要方法：moveTo 和 lineTo 以及stroke。</p>
+<p>ctx.moveTo(x,y)——规定线起始点(x,y)。ctx.lineTo(x,y)——规定直线路线的终点。</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">  ctx.moveTo(<span class="number">0</span>,<span class="number">0</span>);</span><br><span class="line">ctx.lineTo(<span class="number">200</span>,<span class="number">100</span>);</span><br><span class="line">ctx.stroke();<span class="comment">//该方法用于沿该路径绘制线条</span></span><br></pre></td></tr></table></figure>
+<blockquote>
+<p>画canvas时钟过程</p>
+</blockquote>
+<p>首先，定义画布字体的为圆角，让我们看起来美美的：ctx.lineCap=”round”;</p>
+<p>其次，非常重要，时钟是随着时分秒针的转动而转动的，so——我们需要画布范围内必须设计画布不断清除和刷新：ctx.clearRect(0,0,400,400);</p>
+<p>再次，一个画布初始中心点（0,0）是在画布左上角，so——画时钟需要把中心点转移：ctx.translate(200,200);</p>
+<p>最后，也是最重要的，每多一个save()保存就必须在下面补上一个还原restore();</p>
+<p>（1）. 画分刻线<br>    画线嘛，上面咱们已经讲过画线的步骤，就不多说啦！只需要注意用到rotate()方法时，先用ctx.moveTo(),ctx.lineTo在画布右侧画出第一根分刻线，再定义需要旋转的角度变量——rotateD,经过ctx.rotate(rotateD)方法来for循环以及画布不断清除刷新的状态，即可画出分刻线。</p>
+<ol start="2">
+<li>当然这里还需要注意一点：画布需要用到另个方法来包含要执行的内容，分别是save()、restore()。save() 方法把当前状态的一份拷贝压入到一个保存图像状态的栈中。这就允许你临时地改变图像状态，然后，通过调用 restore() 来恢复以前的值。我打个比喻：我有一只手，戴上手套去完成一些事情，手套摘下来之后，我的手还是我的手。额，有点。。。呵呵</li>
+</ol>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line">  <span class="comment">//画刻度线</span></span><br><span class="line"><span class="keyword">for</span> (<span class="keyword">var</span> i = <span class="number">0</span>; i &lt; <span class="number">60</span>; i++) &#123;</span><br><span class="line">    ctx.save();</span><br><span class="line">    ctx.beginPath();</span><br><span class="line">    <span class="keyword">var</span> rotateD = i*<span class="built_in">Math</span>.PI*<span class="number">2</span>/<span class="number">60</span>;</span><br><span class="line">    ctx.rotate(rotateD);</span><br><span class="line">    ctx.lineWidth = <span class="number">4</span>;</span><br><span class="line">    ctx.moveTo(<span class="number">170</span>,<span class="number">0</span>);</span><br><span class="line">    ctx.lineTo(<span class="number">160</span>,<span class="number">0</span>);</span><br><span class="line">    ctx.stroke();</span><br><span class="line">    ctx.restore();</span><br><span class="line">&#125;;</span><br></pre></td></tr></table></figure>
+<ol start="3">
+<li><p>画时刻线</p>
+<pre><code>同理，画时刻线只需要修改线宽以及旋转角度
+</code></pre></li>
+<li><p>画时针</p>
+<p>  在前面new一个data变量var date = new Date;，并且定义一个时针随时间变化旋转角度也变化的变量rotateH。</p>
+<pre><code>小时针旋转角度rotateH；
+
+公式：rotateH = 时针旋转角度 +分针旋转角度/12 - 直角 = data.getHours()/12*2*Math.PI + date.getMinutes()/60/12*Math.PI*2 - Math.PI/2;
+
+(为什么会减Math.PI/2呢，因为时针的初始值为（-12,0）、（125,0）；针指向正好是在三点中位置，所以需要减掉一个直角才能从十二点开始旋转)。
+</code></pre></li>
+</ol>
+<ol start="5">
+<li><p>画分针</p>
+<pre><code>定义一个分针随时间变化旋转角度也变化的变量rotateM。 
+
+公式：rotateM = 分针旋转角度 + 秒针旋转角度/60 -直角 = date.getMinutes()/60*Math.PI*2 + date.getSeconds()/60/60*Math.PI*2 - Math.PI/2;
+</code></pre></li>
+<li><p>画秒针</p>
+<pre><code>定义一个秒针随时间变化旋转角度也变化的变量rotateS
+
+公式：rotateS = 秒针旋转角度 - 减直角 = date.getSeconds()/60*Math.PI*2 - Math.PI/2;
+</code></pre></li>
+</ol>
+<ol start="7">
+<li>时针数字略，大家自个去研究咯！</li>
+</ol>
+<ul>
+<li><a href="http://www.cnblogs.com/beyond-utf-8/p/canvas.html" target="_blank" rel="noopener">相关博客链接</a></li>
+<li><a href="http://www.cnblogs.com/beyond-utf-8/p/canvas.html" target="_blank" rel="noopener">github源码链接</a></li>
+</ul>
+
+      
+    </div>
+    
+    
+    
+
+    
+
+    
+
+    
+
+    <footer class="post-footer">
+      
+
+      
+      
+      
+
+      
+        <div class="post-nav">
+          <div class="post-nav-next post-nav-item">
+            
+              <a href="/2017/06/29/常用的npm和git命令总结/" rel="next" title="常用的npm和git命令总结">
+                <i class="fa fa-chevron-left"></i> 常用的npm和git命令总结
+              </a>
+            
+          </div>
+
+          <span class="post-nav-divider"></span>
+
+          <div class="post-nav-prev post-nav-item">
+            
+          </div>
+        </div>
+      
+
+      
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
+
+    <div class="post-spread">
+      
+    </div>
+  </div>
+
+
+          </div>
+          
+
+
+          
+
+  
+
+
+
+        </div>
+        
+          
+  
+  <div class="sidebar-toggle">
+    <div class="sidebar-toggle-line-wrap">
+      <span class="sidebar-toggle-line sidebar-toggle-line-first"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-middle"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-last"></span>
+    </div>
+  </div>
+
+  <aside id="sidebar" class="sidebar">
+    
+    <div class="sidebar-inner">
+
+      
+
+      
+
+      <section class="site-overview-wrap sidebar-panel sidebar-panel-active">
+        <div class="site-overview">
+          <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+            
+              <img class="site-author-image" itemprop="image" src="/images/128.jpg" alt="luoxufang">
+            
+              <p class="site-author-name" itemprop="name">luoxufang</p>
+              <p class="site-description motion-element" itemprop="description"></p>
+          </div>
+
+          <nav class="site-state motion-element">
+
+            
+              <div class="site-state-item site-state-posts">
+              
+                <a href="/archives/">
+              
+                  <span class="site-state-item-count">5</span>
+                  <span class="site-state-item-name">posts</span>
+                </a>
+              </div>
+            
+
+            
+              
+              
+              <div class="site-state-item site-state-categories">
+                
+                  <span class="site-state-item-count">2</span>
+                  <span class="site-state-item-name">categories</span>
+                
+              </div>
+            
+
+            
+
+          </nav>
+
+          
+
+          
+
+          
+          
+
+          
+          
+
+          
+
+        </div>
+      </section>
+
+      
+
+      
+
+    </div>
+  </aside>
+
+
+        
+      </div>
+    </main>
+
+    <footer id="footer" class="footer">
+      <div class="footer-inner">
+        <div class="copyright">&copy; <span itemprop="copyrightYear">2019</span>
+  <span class="with-love">
+    <i class="fa fa-user"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">luoxufang</span>
+
+  
+</div>
+
+
+  <div class="powered-by">由 <a class="theme-link" target="_blank" href="https://hexo.io">Hexo</a> 强力驱动</div>
+
+
+
+  <span class="post-meta-divider">|</span>
+
+
+
+  <div class="theme-info">主题 &mdash; <a class="theme-link" target="_blank" href="https://github.com/iissnan/hexo-theme-next">NexT.Mist</a> v5.1.4</div>
+
+
+
+
+        
+<div class="busuanzi-count">
+  <script async src="https://dn-lbstatics.qbox.me/busuanzi/2.3/busuanzi.pure.mini.js"></script>
+
+  
+    <span class="site-uv">
+      <i class="fa fa-user"></i> 总访客
+      <span class="busuanzi-value" id="busuanzi_value_site_uv"></span>
+      人
+    </span>
+  
+
+  
+    <span class="site-pv">
+      <i class="fa fa-eye"></i> 总访问量
+      <span class="busuanzi-value" id="busuanzi_value_site_pv"></span>
+      次
+    </span>
+  
+</div>
+
+
+
+
+
+
+
+
+        
+      </div>
+    </footer>
+
+    
+      <div class="back-to-top">
+        <i class="fa fa-arrow-up"></i>
+        
+      </div>
+    
+
+    
+
+  </div>
+
+  
+
+<script type="text/javascript">
+  if (Object.prototype.toString.call(window.Promise) !== '[object Function]') {
+    window.Promise = null;
+  }
+</script>
+
+
+
+
+
+
+
+
+
+  
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+    <script type="text/javascript" src="/lib/jquery/index.js?v=2.1.3"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/fastclick/lib/fastclick.min.js?v=1.0.6"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/jquery_lazyload/jquery.lazyload.js?v=1.9.7"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/velocity/velocity.min.js?v=1.2.1"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/velocity/velocity.ui.min.js?v=1.2.1"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/fancybox/source/jquery.fancybox.pack.js?v=2.1.5"></script>
+  
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/utils.js?v=5.1.4"></script>
+
+  <script type="text/javascript" src="/js/src/motion.js?v=5.1.4"></script>
+
+
+
+  
+  
+
+  
+  <script type="text/javascript" src="/js/src/scrollspy.js?v=5.1.4"></script>
+<script type="text/javascript" src="/js/src/post-details.js?v=5.1.4"></script>
+
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/bootstrap.js?v=5.1.4"></script>
+
+
+
+  
+
+
+  
+
+
+
+
+	
+
+
+
+
+
+  
+
+
+
+
+
+  
+
+
+
+
+
+
+
+
+
+
+
+
+  
+
+
+
+
+
+  
+
+  
+
+  
+
+  
+  
+
+  
+
+  
+
+  
+
+</body>
+</html>
