@@ -87,7 +87,7 @@
 <meta property="og:description" content="先来简单介绍画时钟需要的canvas知识  （1）. 在HTML页面中添加canvas元素，必须定义canvas元素的id属性值以便接下来的调用。 1&amp;lt;canvas id=&amp;quot;canvas&amp;quot; class=&amp;quot;canvas&amp;quot; width=&amp;quot;400&amp;quot; height=&amp;quot;400&amp;quot; border:&amp;gt;&amp;lt;/canv">
 <meta property="og:locale" content="default">
 <meta property="og:image" content="https://images2015.cnblogs.com/blog/1065412/201702/1065412-20170224200543882-1211205652.png">
-<meta property="og:updated_time" content="2019-04-29T07:58:37.745Z">
+<meta property="og:updated_time" content="2019-04-29T08:03:16.761Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="canvas画时钟，重拾乐趣!">
 <meta name="twitter:description" content="先来简单介绍画时钟需要的canvas知识  （1）. 在HTML页面中添加canvas元素，必须定义canvas元素的id属性值以便接下来的调用。 1&amp;lt;canvas id=&amp;quot;canvas&amp;quot; class=&amp;quot;canvas&amp;quot; width=&amp;quot;400&amp;quot; height=&amp;quot;400&amp;quot; border:&amp;gt;&amp;lt;/canv">
@@ -305,11 +305,6 @@
           
 
           
-            <span class="post-meta-divider">|</span>
-            <span class="page-pv"><i class="fa fa-file-o"></i>
-            <span class="busuanzi-value" id="busuanzi_value_page_pv"></span>
-            </span>
-          
 
           
 
@@ -334,7 +329,7 @@
 </blockquote>
 <p>（1）. 在HTML页面中添加canvas元素，必须定义canvas元素的id属性值以便接下来的调用。</p>
 <figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">&lt;canvas id=&quot;canvas&quot; class=&quot;canvas&quot; width=&quot;400&quot; height=&quot;400&quot; border:&gt;&lt;/canvas&gt;</span><br></pre></td></tr></table></figure>
-<hr>
+<a id="more"></a>
 <p>（2）. 使用id寻找canvas元素，在js代码中使用document.getElementById()等方法获取id。</p>
 <figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">var</span> canvas = <span class="built_in">document</span>.getElementById(<span class="string">"canvas"</span>);</span><br></pre></td></tr></table></figure>
 <p>（3）. 通过canvas元素的getContext方法来获取其上下文（Context）,即创建Context对象，以获取允许绘画的2D环境。</p>
@@ -376,7 +371,6 @@
 <ol start="5">
 <li><p>画分针</p>
 <pre><code>定义一个分针随时间变化旋转角度也变化的变量rotateM。 
-
 公式：rotateM = 分针旋转角度 + 秒针旋转角度/60 -直角 = date.getMinutes()/60*Math.PI*2 + date.getSeconds()/60/60*Math.PI*2 - Math.PI/2;
 </code></pre></li>
 <li><p>画秒针</p>
@@ -384,13 +378,11 @@
 
 公式：rotateS = 秒针旋转角度 - 减直角 = date.getSeconds()/60*Math.PI*2 - Math.PI/2;
 </code></pre></li>
-</ol>
-<ol start="7">
-<li>时针数字略，大家自个去研究咯！</li>
+<li><p>时针数字略，大家自个去研究咯！</p>
+</li>
 </ol>
 <ul>
-<li><a href="http://www.cnblogs.com/beyond-utf-8/p/canvas.html" target="_blank" rel="noopener">相关博客链接</a></li>
-<li><a href="http://www.cnblogs.com/beyond-utf-8/p/canvas.html" target="_blank" rel="noopener">github源码链接</a></li>
+<li><a href="http://www.cnblogs.com/beyond-utf-8/p/canvas.html" target="_blank" rel="noopener">我的博客园链接</a></li>
 </ul>
 
       
@@ -416,8 +408,8 @@
         <div class="post-nav">
           <div class="post-nav-next post-nav-item">
             
-              <a href="/2017/06/29/常用的npm和git命令总结/" rel="next" title="常用的npm和git命令总结">
-                <i class="fa fa-chevron-left"></i> 常用的npm和git命令总结
+              <a href="/2019/04/29/CSS3-transform与transform-origin画时钟/" rel="next" title="CSS3:transform与transform-origin画时钟">
+                <i class="fa fa-chevron-left"></i> CSS3:transform与transform-origin画时钟
               </a>
             
           </div>
@@ -494,7 +486,7 @@
               
                 <a href="/archives/">
               
-                  <span class="site-state-item-count">5</span>
+                  <span class="site-state-item-count">6</span>
                   <span class="site-state-item-name">posts</span>
                 </a>
               </div>
@@ -568,26 +560,6 @@
 
 
         
-<div class="busuanzi-count">
-  <script async src="https://dn-lbstatics.qbox.me/busuanzi/2.3/busuanzi.pure.mini.js"></script>
-
-  
-    <span class="site-uv">
-      <i class="fa fa-user"></i> 总访客
-      <span class="busuanzi-value" id="busuanzi_value_site_uv"></span>
-      人
-    </span>
-  
-
-  
-    <span class="site-pv">
-      <i class="fa fa-eye"></i> 总访问量
-      <span class="busuanzi-value" id="busuanzi_value_site_pv"></span>
-      次
-    </span>
-  
-</div>
-
 
 
 
